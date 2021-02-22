@@ -21,6 +21,10 @@ pkg_attach2("tidyverse", "qdap", "rio", "countrycode", "janitor", "lubridate",
 # Raw data on temporary border controls
 # Download raw .pdf-file
 ### ------------------------------------------------------------------------###
+# Note:
+# Compared to a previous version NB 236 was changed from a German notification
+# to a second Norwegian notification on terrorist threats. Thus, bumping up all
+# following entries. 
 download.file("https://ec.europa.eu/home-affairs/sites/homeaffairs/files/what-we-do/policies/borders-and-visas/schengen/reintroduction-border-control/docs/ms_notifications_-_reintroduction_of_border_control.pdf",
               destfile = "./data/raw/TemporaryBorderControls.pdf", mode = "wb")
 
