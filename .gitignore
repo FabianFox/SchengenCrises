@@ -41,3 +41,4 @@ vignettes/*.pdf
 # Individual folders
 /text
 /figures
+/data/*.csv
