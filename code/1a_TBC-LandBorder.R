@@ -88,7 +88,17 @@ bcontrol_dyad.df <- bcontrol_dyad.df %>%
 ### ------------------------------------------------------------------------###
 export(bcontrol_dyad.df, "./data/TemporaryBorderControls_2021-02-22.xlsx")
 
-# Import edited data
+# Import and finalize as directed dyadic data
 ### ------------------------------------------------------------------------###
 # Edited to include only land border closures (edited on 2021/02/22)
-bcontrol.df <- import("./data/TemporaryBorderClosures 2006-2021.xlsx")
+bcontrol.df <- import("./data/TemporaryBorderControls_2021-02-22.xlsx")
+
+# Remove controls unrelated to land borders
+bcontrol_land.df <- bcontrol.df %>%
+  mutate(land_border_control = ifelse(land_border_control == "T", TRUE, FALSE)) %>%
+  filter(land_border_control == TRUE) %>%
+  select(-land_border_control)
+
+# Export
+### ------------------------------------------------------------------------###
+export(bcontrol_land.df, "./data/TBC_Land.rds")
