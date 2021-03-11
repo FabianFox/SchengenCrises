@@ -19,7 +19,7 @@ theme.basic <- theme_minimal() +
 
 # Load data (all notifications)
 ### ------------------------------------------------------------------------###
-bcontrol.df <- import("./data/TemporaryBorderControls - 2015-2021.rds")
+bcontrol.df <- import("./data/TemporaryBorderControls - 2006-2021.rds")
 
 # Total length of controls throughout observation period
 bcontrol.df <- bcontrol.df %>%
@@ -38,28 +38,30 @@ tbc_segment.fig <- ggplot(data = bcontrol.df,
            xmax = as.Date("2015-09-13"), 
            ymin = -Inf, ymax = Inf, 
            colour = "#bdbdbd", alpha = .5) +
-  annotate("text", x = as.Date("2016-01-01"), y = "Iceland",
+  annotate("text", x = as.Date("2011-01-01") + months(6), y = "Italy",
            hjust = 0,
-           label = "Inital border controls in\nrelation to the migration\nand refugee crisis.") +
-  annotate("segment", x = as.Date("2015-09-13") + days(5), 
-           xend =  as.Date("2016-01-01") - days(5), 
+           label = "Initial border controls in\nrelation to the migration\nand refugee crisis.") +
+  annotate("segment", x = as.Date("2015-01-01") - months(4), 
+           xend =  as.Date("2015-09-13") - months(1), 
            y = "Italy", yend = "Iceland") +
   annotate("rect", xmin = as.Date("2020-03-11") - days(7), 
            xmax = as.Date("2020-03-11"), 
            ymin = -Inf, ymax = Inf, 
            colour = "#bdbdbd", alpha = .5) +
-  annotate("text", x = as.Date("2019-01-01") - months(6), y = "Lithuania",
+  annotate("text", x = as.Date("2016-01-01") + months(3), y = "Liechtenstein",
            hjust = 0,
            label = "Initial border controls\nin relation to COVID-19.") +
-  annotate("segment", x = as.Date("2019-01-01") + months(6), 
-           xend =  as.Date("2020-03-11") - days(14), 
-           y = "Lithuania", yend = "Liechtenstein") +
-  scale_x_date(breaks = seq(as.Date("2015-01-01"), 
+  annotate("segment", x = as.Date("2019-01-01") + months(3), 
+           xend =  as.Date("2020-03-11") - months(1), 
+           y = "Liechtenstein", yend = "Latvia") +
+  scale_x_date(breaks = seq(as.Date("2006-01-01"), 
                             as.Date("2022-10-01"), "years"), 
-               date_labels = "%Y") +
+               date_labels = "%Y",
+               limits = as.Date(c("2006-01-01", "2022-01-01")))  +
     scale_y_discrete(drop = FALSE) +
     labs(x = "", y = "") +
-    theme.basic
+    theme.basic +
+    theme(axis.text.x = element_text(colour = "black", size = 14))
 
 # Save plots
 ggsave(
