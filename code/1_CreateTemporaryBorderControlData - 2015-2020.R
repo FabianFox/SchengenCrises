@@ -1,6 +1,6 @@
 # Data on temporarily reinstated border controls in the Schengen Area
 
-# Downloaded on 2021/02/19
+# Downloaded on 2021/03/11
 # Source: https://ec.europa.eu/home-affairs/what-we-do/policies/borders-and-visas/schengen/reintroduction-border-control_en
 # pdf: https://ec.europa.eu/home-affairs/sites/homeaffairs/files/what-we-do/policies/borders-and-visas/schengen/reintroduction-border-control/docs/ms_notifications_-_reintroduction_of_border_control_en.pdf
 
@@ -34,7 +34,7 @@ download.file("https://ec.europa.eu/home-affairs/sites/homeaffairs/files/what-we
 # Load and prepare data in R
 ### ------------------------------------------------------------------------###
 # Load the data and create a column for duration of border closure
-bcontrol.df <- import("./data/raw/TemporaryBorderControls.xlsx")[4:258,] %>%
+bcontrol.df <- import("./data/raw/TemporaryBorderControls.xlsx")[4:266,] %>%
   setNames(.[1,]) %>%
   .[-1,] %>%
   clean_names() %>%
@@ -63,6 +63,7 @@ bcontrol.df <- as.data.frame(bcontrol.df)
 #                  border closure twice. Accordingly, the count of incidents differs
 #                  between the original table and the accurate number. 
 
+bcontrol.df[bcontrol.df$nb == 266, "end"] <- "15/03/2021" # # end < begin; month: Feb -> Mar
 bcontrol.df[bcontrol.df$nb == 234, "end"] <- "30/04/2021" # end < begin; year: 2020 -> 2021
 bcontrol.df[bcontrol.df$nb == 230, c("begin", "end")] <- c("14/09/2020", "13/10/2020")
 bcontrol.df[bcontrol.df$nb == 229, c("begin", "end")] <- c("30/09/2020", "30/10/2020")
@@ -132,11 +133,32 @@ bcontrol.df[bcontrol.df$nb == 39, c("begin", "end")] <- c("23/09/2015", "12/10/2
 bcontrol.df[bcontrol.df$nb == 38, c("begin", "end")] <- c("13/10/2015", "01/11/2015")
 bcontrol.df[bcontrol.df$nb == 37, c("begin", "end")] <- c("02/11/2015", "13/11/2015")
 bcontrol.df[bcontrol.df$nb == 36, c("begin", "end")] <- c("16/05/2015", "15/6/2015")
-
-# Limit to observations since 2015
-bcontrol.df <- bcontrol.df %>%
-  filter(nb >= 36) %>%
-  arrange(desc(nb))
+bcontrol.df[bcontrol.df$nb == 35, c("begin", "end")] <- c("31/08/2014", "03/09/2014")
+bcontrol.df[bcontrol.df$nb == 34, c("begin", "end")] <- c("24/07/2014", "31/07/2014")
+bcontrol.df[bcontrol.df$nb == 33, c("begin", "end")] <- c("01/06/2014", "06/06/2014") # G7 Summit
+bcontrol.df[bcontrol.df$nb == 32, c("begin", "end")] <- c("14/03/2014", "28/03/2014")
+bcontrol.df[bcontrol.df$nb == 31, c("begin", "end")] <- c("08/11/2013", "23/11/2013")
+bcontrol.df[bcontrol.df$nb == 30, c("begin", "end")] <- c("03/12/2012", "12/12/2012")
+bcontrol.df[bcontrol.df$nb == 29, c("begin", "end")] <- c("04/06/2012", "01/07/2012")
+bcontrol.df[bcontrol.df$nb == 28, c("begin", "end")] <- c("02/05/2012", "04/05/2012")
+bcontrol.df[bcontrol.df$nb == 24, c("begin", "end")] <- c("04/06/2011", "09/06/2011")
+bcontrol.df[bcontrol.df$nb == 23, c("begin", "end")] <- c("16/11/2010", "20/11/2010")
+bcontrol.df[bcontrol.df$nb == 22, c("begin", "end")] <- c("24/05/2010", "01/06/2010")
+bcontrol.df[bcontrol.df$nb == 21, c("begin", "end")] <- c("28/05/2010", "02/06/2010")
+bcontrol.df[bcontrol.df$nb == 20, c("begin", "end")] <- c("17/04/2010", "23/04/2010")
+bcontrol.df[bcontrol.df$nb == 19, c("begin", "end")] <- c("05/04/2010", "18/04/2010")
+bcontrol.df[bcontrol.df$nb == 18, c("begin", "end")] <- c("01/12/2009", "18/12/2009")
+bcontrol.df[bcontrol.df$nb == 16, c("begin", "end")] <- c("27/09/2009", "27/09/2009") # 50th anniversary of ETA
+bcontrol.df[bcontrol.df$nb == 15, c("begin", "end")] <- c("26/09/2009", "27/09/2009")
+bcontrol.df[bcontrol.df$nb == 14, c("begin", "end")] <- c("19/09/2009", "19/09/2009")
+bcontrol.df[bcontrol.df$nb == 10, c("begin", "end")] <- c("05/03/2009", "07/03/2009")
+bcontrol.df[bcontrol.df$nb == 8, c("begin", "end")] <- c("27/09/2008", "27/09/2008")
+bcontrol.df[bcontrol.df$nb == 6, c("begin", "end")] <- c("02/11/2007", "03/11/2007")
+bcontrol.df[bcontrol.df$nb == 5, c("begin", "end")] <- c("25/05/2007", "09/06/2007")
+bcontrol.df[bcontrol.df$nb == 4, c("begin", "end")] <- c("12/02/2007", "16/02/2007")
+bcontrol.df[bcontrol.df$nb == 3, c("begin", "end")] <- c("13/11/2006", "29/11/2006")
+bcontrol.df[bcontrol.df$nb == 2, c("begin", "end")] <- c("09/10/2006", "21/10/2006")
+bcontrol.df[bcontrol.df$nb == 1, c("begin", "end")] <- c("21/10/2006", "21/10/2006")
 
 # Turn begin/end into correct dates & fill missing member state: Switzerland
 bcontrol.df <- bcontrol.df %>%
@@ -144,7 +166,6 @@ bcontrol.df <- bcontrol.df %>%
   mutate_at(vars("begin", "end"), list(~dmy(.))) %>%
   fill(member_state, .direction = "down") %>%
   mutate(iso3_state = countrycode(member_state, "country.name.en", "iso3c"))
-
 
 # Add Wikipedia table providing information of Schengen membership
 ### ------------------------------------------------------------------------###
@@ -186,4 +207,4 @@ bcontrol.df <- bcontrol.df %>%
   select(nb, member_state, iso3_state, eu_name, nb_old, everything())
 
 # Export
-export(bcontrol.df, "./data/TemporaryBorderControls - 2015-2021.rds")
+export(bcontrol.df, "./data/TemporaryBorderControls - 2006-2021.rds")
