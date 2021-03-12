@@ -63,6 +63,34 @@ tbc_segment.fig <- ggplot(data = bcontrol.df,
     theme.basic +
     theme(axis.text.x = element_text(colour = "black", size = 14))
 
+# Number of TBC by year
+bcontrol_year.df <- bcontrol.df %>%
+  filter(!is.na(begin)) %>%
+  group_by(year = year(begin)) %>%
+  count()
+
+# Line plot of TBC by year
+bcontrol_year.fig <- bcontrol_year.df %>%
+  ggplot(aes(x = year, y = n)) +
+  geom_point(stat = "identity", size = 4) +
+  geom_line(size = 2) +
+  labs(x = "", y = "") +
+  theme.basic +
+  theme(axis.text.x = element_text(colour = "black", size = 14))
+
+# Number of controls between 2006 - 2014 and 2015 - most recent
+bcontrol.df %>%
+  filter(!is.na(begin)) %>%
+  mutate(year_begin = year(begin),
+         segment = car::recode(year_begin,
+                               recodes = 
+                               "2006:2014='2006-2014';
+                                2015:2019='2015-2019';
+                                2020:2021='2020-2021';
+                                else = 'unassigned'")) %>%
+  count(segment) %>%
+  mutate(perc = n / sum(n) * 100)
+
 # Save plots
 ggsave(
   plot = tbc_segment.fig, "./figures/Fig 1 - TBC_SegmentPlot.tiff", 
