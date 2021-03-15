@@ -30,6 +30,7 @@ bcontrol.df <- bcontrol.df %>%
   ungroup()
 
 # Segment plot
+### ------------------------------------------------------------------------###
 tbc_segment.fig <- ggplot(data = bcontrol.df,
                           aes(x = as.Date(begin), xend = as.Date(end), 
                               y = fct_rev(member_state), yend = member_state)) +
@@ -63,6 +64,8 @@ tbc_segment.fig <- ggplot(data = bcontrol.df,
     theme.basic +
     theme(axis.text.x = element_text(colour = "black", size = 14))
 
+# Description
+### ------------------------------------------------------------------------###
 # Number of TBC by year
 bcontrol_year.df <- bcontrol.df %>%
   filter(!is.na(begin)) %>%
@@ -91,7 +94,8 @@ bcontrol.df %>%
   count(segment) %>%
   mutate(perc = n / sum(n) * 100)
 
-# Save plots
+# Export plots
+### ------------------------------------------------------------------------###
 ggsave(
   plot = tbc_segment.fig, "./figures/Fig 1 - TBC_SegmentPlot.tiff", 
   width = 11, height = 8, unit = "in",  dpi = 300
